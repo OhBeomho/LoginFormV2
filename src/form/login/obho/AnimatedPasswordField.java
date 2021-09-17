@@ -53,7 +53,7 @@ public class AnimatedPasswordField extends PasswordField {
 			t.play();
 		});
 	}
- 
+
 	private void unfocus() {
 		Platform.runLater(() -> {
 			t.stop();

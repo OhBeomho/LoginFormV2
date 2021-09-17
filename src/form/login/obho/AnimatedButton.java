@@ -39,7 +39,7 @@ public class AnimatedButton extends Button {
 
 		this.focusedProperty().addListener(e -> {
 			if (this.isFocused()) focus();
-			else unfocus(); 
+			else unfocus();
 		});
 
 		at.start();

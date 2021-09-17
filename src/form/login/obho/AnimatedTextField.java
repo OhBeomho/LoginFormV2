@@ -53,7 +53,7 @@ public class AnimatedTextField extends TextField {
 			t.play();
 		});
 	}
- 
+
 	private void unfocus() {
 		Platform.runLater(() -> {
 			t.stop();
