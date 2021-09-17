@@ -283,7 +283,7 @@ public class Main extends Application {
 			});
 			t.play();
 		});
-
+ 
 		line.setStartX(0);
 		line.setStartY(50);
 		line.setEndX(SCREEN_WIDTH);
