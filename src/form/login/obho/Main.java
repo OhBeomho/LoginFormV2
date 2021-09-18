@@ -31,10 +31,10 @@ public class Main extends Application {
 	private static final int SCREEN_WIDTH = 600, SCREEN_HEIGHT = 400;
 
 	private Scene scene;
-	private StackPane signInPane, signUpPane, mainPane, profilePane;
+	private StackPane loginPane, registerPane, mainPane, profilePane;
 	private AnimatedTextField emailField, rEmailField, rNameField;
 	private AnimatedPasswordField passwordField, rPasswordField, rPasswordField0;
-	private AnimatedButton signInButton, signUpButton, okButton, cancelButton, profileButton, backButton;
+	private AnimatedButton loginButton, logoutButton, registerButton, okButton, cancelButton, profileButton, backButton;
 	private Label nameLabel;
 	private Label emailLabel, passwordLabel, dateLabel;
 	private ImageView profileImage;
@@ -44,12 +44,12 @@ public class Main extends Application {
 	private boolean signInFailed;
 
 	public Main() {
-		signInPane = new StackPane();
-		signUpPane = new StackPane();
+		loginPane = new StackPane();
+		registerPane = new StackPane();
 		mainPane = new StackPane();
 		profilePane = new StackPane();
 
-		scene = new Scene(signInPane, SCREEN_WIDTH, SCREEN_HEIGHT);
+		scene = new Scene(loginPane, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		emailField = new AnimatedTextField();
 		passwordField = new AnimatedPasswordField();
@@ -58,8 +58,9 @@ public class Main extends Application {
 		rPasswordField0 = new AnimatedPasswordField();
 		rNameField = new AnimatedTextField();
 
-		signInButton = new AnimatedButton("로그인");
-		signUpButton = new AnimatedButton("회원가입");
+		loginButton = new AnimatedButton("로그인");
+		logoutButton = new AnimatedButton("로그아웃");
+		registerButton = new AnimatedButton("회원가입");
 		okButton = new AnimatedButton("확인");
 		cancelButton = new AnimatedButton("취소");
 		profileButton = new AnimatedButton("내 프로필");
@@ -89,7 +90,7 @@ public class Main extends Application {
 
 		signInLabels[0].setStyle("-fx-font-size: 24pt;");
 
-		siHBoxes[0].getChildren().addAll(signInButton, signUpButton);
+		siHBoxes[0].getChildren().addAll(loginButton, registerButton);
 		siHBoxes[1].getChildren().addAll(signInLabels[1], emailField);
 		siHBoxes[2].getChildren().addAll(signInLabels[2], passwordField);
 
@@ -103,9 +104,9 @@ public class Main extends Application {
 		siVBox.setAlignment(Pos.CENTER);
 		siVBox.setSpacing(20);
 
-		signInButton.setOnAction(e -> {
-			if (signIn()) {
-				signInPane.getChildren().add(mainPane);
+		loginButton.setOnAction(e -> {
+			if (login()) {
+				loginPane.getChildren().add(mainPane);
 				mainPane.translateXProperty().set(SCREEN_WIDTH);
 
 				KeyValue kv = new KeyValue(mainPane.translateXProperty(), 0, Interpolator.SPLINE(1, 0, 0, 1));
@@ -114,7 +115,7 @@ public class Main extends Application {
 				t.getKeyFrames().clear();
 				t.getKeyFrames().add(kf);
 				t.setOnFinished(e1 -> {
-					signInPane.getChildren().remove(mainPane);
+					loginPane.getChildren().remove(mainPane);
 					scene.setRoot(mainPane);
 					profileImage.requestFocus();
 				});
@@ -129,24 +130,24 @@ public class Main extends Application {
 
 			signInFailed = false;
 		});
-		signUpButton.setOnAction(e -> {
-			signInPane.getChildren().add(signUpPane);
-			signUpPane.translateXProperty().set(SCREEN_WIDTH);
+		registerButton.setOnAction(e -> {
+			loginPane.getChildren().add(registerPane);
+			registerPane.translateXProperty().set(SCREEN_WIDTH);
 
-			KeyValue kv = new KeyValue(signUpPane.translateXProperty(), 0, Interpolator.SPLINE(1, 0, 0, 1));
+			KeyValue kv = new KeyValue(registerPane.translateXProperty(), 0, Interpolator.SPLINE(1, 0, 0, 1));
 			KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
 
 			t.getKeyFrames().clear();
 			t.getKeyFrames().add(kf);
 			t.setOnFinished(e1 -> {
-				signInPane.getChildren().remove(signUpPane);
-				scene.setRoot(signUpPane);
+				loginPane.getChildren().remove(registerPane);
+				scene.setRoot(registerPane);
 			});
 			t.play();
 		});
 
-		signInPane.getChildren().add(siVBox);
-		signInPane.setStyle("-fx-background-color: rgb(100, 200, 30);");
+		loginPane.getChildren().add(siVBox);
+		loginPane.setStyle("-fx-background-color: rgb(100, 200, 30);");
 
 		// sign up pane
 		HBox[] suHBoxes = new HBox[] { new HBox(), new HBox(), new HBox(), new HBox(), new HBox() };
@@ -172,40 +173,52 @@ public class Main extends Application {
 		suVBox.setSpacing(20);
 
 		okButton.setOnAction(e -> {
-			if (signUp()) {
-				signUpPane.getChildren().add(signInPane);
-				signInPane.translateYProperty().set(SCREEN_HEIGHT);
+			if (register()) {
+				registerPane.getChildren().add(loginPane);
+				loginPane.translateYProperty().set(SCREEN_HEIGHT);
 
-				KeyValue kv = new KeyValue(signInPane.translateYProperty(), 0, Interpolator.SPLINE(1, 0, 0, 1));
+				KeyValue kv = new KeyValue(loginPane.translateYProperty(), 0, Interpolator.SPLINE(1, 0, 0, 1));
 				KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
 
 				t.getKeyFrames().clear();
 				t.getKeyFrames().add(kf);
 				t.setOnFinished(e1 -> {
-					signUpPane.getChildren().remove(signInPane);
-					scene.setRoot(signInPane);
+					registerPane.getChildren().remove(loginPane);
+					scene.setRoot(loginPane);
 				});
 				t.play();
+
+				rEmailField.clear();
+				rPasswordField.clear();
+				rPasswordField0.clear();
+				rNameField.clear();
+
+				showDialog("INFORMATION", "회원가입 되었습니다.", "", AlertType.INFORMATION);
 			}
 		});
 		cancelButton.setOnAction(e -> {
-			signUpPane.getChildren().add(signInPane);
-			signInPane.translateXProperty().set(-SCREEN_WIDTH);
+			registerPane.getChildren().add(loginPane);
+			loginPane.translateXProperty().set(-SCREEN_WIDTH);
 
-			KeyValue kv = new KeyValue(signInPane.translateXProperty(), 0, Interpolator.SPLINE(1, 0, 0, 1));
+			KeyValue kv = new KeyValue(loginPane.translateXProperty(), 0, Interpolator.SPLINE(1, 0, 0, 1));
 			KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
 
 			t.getKeyFrames().clear();
 			t.getKeyFrames().add(kf);
 			t.setOnFinished(e1 -> {
-				signUpPane.getChildren().remove(signInPane);
-				scene.setRoot(signInPane);
+				registerPane.getChildren().remove(loginPane);
+				scene.setRoot(loginPane);
 			});
 			t.play();
+
+			rEmailField.clear();
+			rPasswordField.clear();
+			rPasswordField0.clear();
+			rNameField.clear();
 		});
 
-		signUpPane.getChildren().add(suVBox);
-		signUpPane.setStyle("-fx-background-color: rgb(30, 200, 100);");
+		registerPane.getChildren().add(suVBox);
+		registerPane.setStyle("-fx-background-color: rgb(30, 200, 100);");
 
 		// main pane
 		VBox mVBox = new VBox();
@@ -259,13 +272,14 @@ public class Main extends Application {
 
 		// profile pane
 		VBox pVBox = new VBox();
-		HBox pHBox = new HBox();
+		HBox pHBox = new HBox(), pHBox0 = new HBox();
 
 		Line line = new Line();
 		ImageView pImage = new ImageView(profileImage.getImage());
 
 		pHBox.getChildren().addAll(pImage, this.nameLabel);
-		pVBox.getChildren().addAll(pHBox, line, emailLabel, passwordLabel, dateLabel, backButton);
+		pHBox0.getChildren().addAll(backButton, logoutButton);
+		pVBox.getChildren().addAll(pHBox, line, emailLabel, passwordLabel, dateLabel, pHBox0);
 
 		backButton.setOnAction(e -> {
 			profilePane.getChildren().add(mainPane);
@@ -283,6 +297,25 @@ public class Main extends Application {
 			});
 			t.play();
 		});
+		logoutButton.setOnAction(e -> {
+			logout();
+
+			profilePane.getChildren().add(loginPane);
+			loginPane.maxWidthProperty().set(0);
+			loginPane.maxHeightProperty().set(0);
+
+			KeyValue kv = new KeyValue(loginPane.maxWidthProperty(), SCREEN_WIDTH, Interpolator.EASE_IN);
+			KeyValue kv0 = new KeyValue(loginPane.maxHeightProperty(), SCREEN_HEIGHT, Interpolator.EASE_IN);
+			KeyFrame kf = new KeyFrame(Duration.seconds(1), kv, kv0);
+
+			t.getKeyFrames().clear();
+			t.getKeyFrames().add(kf);
+			t.setOnFinished(e1 -> {
+				profilePane.getChildren().remove(loginPane);
+				scene.setRoot(loginPane);
+			});
+			t.play();
+		});
 
 		line.setStartX(0);
 		line.setStartY(50);
@@ -291,6 +324,8 @@ public class Main extends Application {
 
 		pHBox.setAlignment(Pos.CENTER);
 		pHBox.setSpacing(10);
+		pHBox0.setAlignment(Pos.CENTER);
+		pHBox0.setSpacing(10);
 		pVBox.setAlignment(Pos.CENTER);
 		pVBox.setSpacing(30);
 
@@ -314,7 +349,7 @@ public class Main extends Application {
 	private void loadAccounts() {
 		try (BufferedReader reader = new BufferedReader(new FileReader(Account.ACCOUNTS_FILE))) {
 			String line = "";
-			String name = "", email = "", password = "", signUpDate = "";
+			String name = "", email = "", password = "", registerDate = "";
 			String[] datas = new String[4];
 			int count = 0;
 
@@ -331,9 +366,9 @@ public class Main extends Application {
 				name = datas[0];
 				email = datas[1];
 				password = datas[2];
-				signUpDate = datas[3];
+				registerDate = datas[3];
 
-				Account account = new Account(name, email, password, signUpDate);
+				Account account = new Account(name, email, password, registerDate);
 				accounts.add(account);
 			}
 		} catch (IOException e) {
@@ -346,7 +381,7 @@ public class Main extends Application {
 		}
 	}
 
-	private boolean signIn() {
+	private boolean login() {
 		String email = emailField.getText(), password = passwordField.getText();
 
 		if (email.equals("") || password.equals("")) {
@@ -367,7 +402,7 @@ public class Main extends Application {
 					}
 
 					String date = "";
-					StringTokenizer st = new StringTokenizer(a.getSignUpDate(), "!");
+					StringTokenizer st = new StringTokenizer(a.getRegisterDate(), "!");
 					date += st.nextToken() + "\n";
 					date += st.nextToken();
 
@@ -385,7 +420,7 @@ public class Main extends Application {
 		return false;
 	}
 
-	private boolean signUp() {
+	private boolean register() {
 		String name = rNameField.getText(), email = rEmailField.getText(), password = rPasswordField.getText(), password0 = rPasswordField0.getText();
 
 		if (name.equals("") || email.equals("") || password.equals("") || password0.equals("")) {
@@ -398,9 +433,7 @@ public class Main extends Application {
 		if (!checkAccount(account, password0)) return false;
 
 		account.saveAccount();
-
-		accounts.clear();
-		loadAccounts();
+		accounts.add(account);
 
 		return true;
 	}
@@ -424,6 +457,14 @@ public class Main extends Application {
 		}
 
 		return true;
+	}
+
+	private void logout() {
+		emailLabel.setText("");
+		passwordLabel.setText("");
+		dateLabel.setText("");
+		emailField.clear();
+		passwordField.clear();
 	}
 
 	private void showDialog(String title, String header, String content, AlertType type) {

@@ -10,7 +10,7 @@ public class Account {
 	public static final File ACCOUNTS_FILE = new File("C:/Accounts/LoginFormV2Accounts/accounts.txt");
 	private static final String ACCOUNT_FORMAT = "%s|%s|%s|%tY년 %<tm월 %<td일!%<tH시 %<tM분 %<tS초"; // name|email|password|signUpDate
 
-	private String name, email, password, signUpDate;
+	private String name, email, password, registerDate;
 
 	public Account(String name, String email, String password) {
 		this.name = name;
@@ -18,19 +18,19 @@ public class Account {
 		this.password = password;
 	}
 	
-	public Account(String name, String email, String password, String signUpDate) {
+	public Account(String name, String email, String password, String registerDate) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.signUpDate = signUpDate;
+		this.registerDate = registerDate;
 	}
 
-	public String getSignUpDate() {
-		return signUpDate;
+	public String getRegisterDate() {
+		return registerDate;
 	}
 
-	public void setSignUpDate(String signUpDate) {
-		this.signUpDate = signUpDate;
+	public void setRegisterDate(String registerDate) {
+		this.registerDate = registerDate;
 	}
 
 	public String getName() {
@@ -69,5 +69,7 @@ public class Account {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		setRegisterDate(String.format("%tY년 %<tm월 %<td일!%<tH시 %<tM분 %<tS초", now));
 	}
 }
