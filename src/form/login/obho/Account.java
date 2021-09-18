@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class Account {
 	public static final File ACCOUNTS_FILE = new File("C:/Accounts/LoginFormV2Accounts/accounts.txt");
-	private static final String ACCOUNT_FORMAT = "%s|%s|%s|%tY년 %<tm월 %<td일!%<tH시 %<tM분 %<tS초"; // name|email|password|signUpDate
+	private static final String ACCOUNT_FORMAT = "%s|%s|%s|%tY년 %<tm월 %<td일!%<tH시 %<tM분 %<tS초"; // name|email|password|registerDate!registerTime
 
 	private String name, email, password, registerDate;
 
