@@ -86,7 +86,7 @@ public class Main extends Application {
 		HBox[] siHBoxes = new HBox[] { new HBox(), new HBox(), new HBox() };
 		VBox siVBox = new VBox();
 
-		Label[] signInLabels = new Label[] { new Label("SIGN IN"), new Label("이메일"), new Label("비밀번호") };
+		Label[] signInLabels = new Label[] { new Label("로그인"), new Label("이메일"), new Label("비밀번호") };
 
 		signInLabels[0].setStyle("-fx-font-size: 24pt;");
 
@@ -153,7 +153,7 @@ public class Main extends Application {
 		HBox[] suHBoxes = new HBox[] { new HBox(), new HBox(), new HBox(), new HBox(), new HBox() };
 		VBox suVBox = new VBox();
 
-		Label[] signUpLabels = new Label[] { new Label("SIGN UP"), new Label("이메일"), new Label("이름"), new Label("비밀번호"), new Label("비밀번호 확인") };
+		Label[] signUpLabels = new Label[] { new Label("회원가입"), new Label("이메일"), new Label("이름"), new Label("비밀번호"), new Label("비밀번호 확인") };
 
 		suHBoxes[0].getChildren().addAll(signUpLabels[1], rEmailField);
 		suHBoxes[1].getChildren().addAll(signUpLabels[2], rNameField);
@@ -301,11 +301,11 @@ public class Main extends Application {
 			logout();
 
 			profilePane.getChildren().add(loginPane);
-			loginPane.maxWidthProperty().set(0);
+			loginPane.translateYProperty().set(-SCREEN_HEIGHT);
 			loginPane.maxHeightProperty().set(0);
 
-			KeyValue kv = new KeyValue(loginPane.maxWidthProperty(), SCREEN_WIDTH, Interpolator.EASE_IN);
-			KeyValue kv0 = new KeyValue(loginPane.maxHeightProperty(), SCREEN_HEIGHT, Interpolator.EASE_IN);
+			KeyValue kv = new KeyValue(loginPane.maxHeightProperty(), SCREEN_HEIGHT, Interpolator.SPLINE(0, 0, 1, 1));
+			KeyValue kv0 = new KeyValue(loginPane.translateYProperty(), 0, Interpolator.SPLINE(1, 0, 0, 1));
 			KeyFrame kf = new KeyFrame(Duration.seconds(1), kv, kv0);
 
 			t.getKeyFrames().clear();

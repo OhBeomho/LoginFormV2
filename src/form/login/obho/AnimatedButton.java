@@ -8,6 +8,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 public class AnimatedButton extends Button {
