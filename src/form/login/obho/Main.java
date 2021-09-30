@@ -82,27 +82,27 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		// sign in pane
-		HBox[] siHBoxes = new HBox[] { new HBox(), new HBox(), new HBox() };
-		VBox siVBox = new VBox();
+		// login pane
+		HBox[] lHBoxes = new HBox[] { new HBox(), new HBox(), new HBox() };
+		VBox lVBox = new VBox();
 
-		Label[] signInLabels = new Label[] { new Label("로그인"), new Label("이메일"), new Label("비밀번호") };
+		Label[] loginLabels = new Label[] { new Label("로그인"), new Label("이메일"), new Label("비밀번호") };
 
-		signInLabels[0].setStyle("-fx-font-size: 24pt;");
+		loginLabels[0].setStyle("-fx-font-size: 24pt;");
 
-		siHBoxes[0].getChildren().addAll(loginButton, registerButton);
-		siHBoxes[1].getChildren().addAll(signInLabels[1], emailField);
-		siHBoxes[2].getChildren().addAll(signInLabels[2], passwordField);
+		lHBoxes[0].getChildren().addAll(loginButton, registerButton);
+		lHBoxes[1].getChildren().addAll(loginLabels[1], emailField);
+		lHBoxes[2].getChildren().addAll(loginLabels[2], passwordField);
 
-		siVBox.getChildren().addAll(signInLabels[0], siHBoxes[1], siHBoxes[2], siHBoxes[0]);
+		lVBox.getChildren().addAll(loginLabels[0], lHBoxes[1], lHBoxes[2], lHBoxes[0]);
 
-		for (HBox hbox : siHBoxes) {
+		for (HBox hbox : lHBoxes) {
 			hbox.setAlignment(Pos.CENTER);
 			hbox.setSpacing(10);
 		}
 
-		siVBox.setAlignment(Pos.CENTER);
-		siVBox.setSpacing(20);
+		lVBox.setAlignment(Pos.CENTER);
+		lVBox.setSpacing(20);
 
 		loginButton.setOnAction(e -> {
 			if (login()) {
@@ -146,31 +146,31 @@ public class Main extends Application {
 			t.play();
 		});
 
-		loginPane.getChildren().add(siVBox);
+		loginPane.getChildren().add(lVBox);
 		loginPane.setStyle("-fx-background-color: rgb(100, 200, 30);");
 
-		// sign up pane
-		HBox[] suHBoxes = new HBox[] { new HBox(), new HBox(), new HBox(), new HBox(), new HBox() };
-		VBox suVBox = new VBox();
+		// register pane
+		HBox[] rHBoxes = new HBox[] { new HBox(), new HBox(), new HBox(), new HBox(), new HBox() };
+		VBox rVBox = new VBox();
 
-		Label[] signUpLabels = new Label[] { new Label("회원가입"), new Label("이메일"), new Label("이름"), new Label("비밀번호"), new Label("비밀번호 확인") };
+		Label[] registerLabels = new Label[] { new Label("회원가입"), new Label("이메일"), new Label("이름"), new Label("비밀번호"), new Label("비밀번호 확인") };
 
-		suHBoxes[0].getChildren().addAll(signUpLabels[1], rEmailField);
-		suHBoxes[1].getChildren().addAll(signUpLabels[2], rNameField);
-		suHBoxes[2].getChildren().addAll(signUpLabels[3], rPasswordField);
-		suHBoxes[3].getChildren().addAll(signUpLabels[4], rPasswordField0);
-		suHBoxes[4].getChildren().addAll(okButton, cancelButton);
+		rHBoxes[0].getChildren().addAll(registerLabels[1], rEmailField);
+		rHBoxes[1].getChildren().addAll(registerLabels[2], rNameField);
+		rHBoxes[2].getChildren().addAll(registerLabels[3], rPasswordField);
+		rHBoxes[3].getChildren().addAll(registerLabels[4], rPasswordField0);
+		rHBoxes[4].getChildren().addAll(okButton, cancelButton);
 
-		suVBox.getChildren().add(signUpLabels[0]);
-		suVBox.getChildren().addAll(suHBoxes);
+		rVBox.getChildren().add(registerLabels[0]);
+		rVBox.getChildren().addAll(rHBoxes);
 
-		for (HBox hbox : suHBoxes) {
+		for (HBox hbox : rHBoxes) {
 			hbox.setAlignment(Pos.CENTER);
 			hbox.setSpacing(10);
 		}
 
-		suVBox.setAlignment(Pos.CENTER);
-		suVBox.setSpacing(20);
+		rVBox.setAlignment(Pos.CENTER);
+		rVBox.setSpacing(20);
 
 		okButton.setOnAction(e -> {
 			if (register()) {
@@ -217,7 +217,7 @@ public class Main extends Application {
 			rNameField.clear();
 		});
 
-		registerPane.getChildren().add(suVBox);
+		registerPane.getChildren().add(rVBox);
 		registerPane.setStyle("-fx-background-color: rgb(30, 200, 100);");
 
 		// main pane
